@@ -2,6 +2,8 @@
 <hr />
 <div class="list-group">
   <div *ngFor="let item of recipes">
-    <app-recipe-item [recipe]="item"></app-recipe-item>
+    <div (click)="onSelect(item)">
+      <app-recipe-item [recipe]="item"></app-recipe-item>
+    </div>
   </div>
 </div>
