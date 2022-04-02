@@ -1,17 +1,22 @@
-<form class="my-4">
+<div class="my-4">
   <div class="row">
     <div class="col-6">
       <label for="name" class="form-label">Name</label>
-      <input class="form-control" id="name" />
+      <input class="form-control" id="name" [(ngModel)]="name" />
     </div>
     <div class="col-6">
       <label for="amount" class="form-label">Amount</label>
-      <input type="number" class="form-control w-25" id="amount" />
+      <input
+        type="number"
+        class="form-control w-25"
+        id="amount"
+        [(ngModel)]="amount"
+      />
     </div>
   </div>
   <div class="d-flex gap-1 mt-4">
-    <button type="submit" class="btn btn-success">Add</button>
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button type="submit" class="btn btn-primary">Clear</button>
+    <button class="btn btn-success" (click)="onAdd()">Add</button>
+    <button class="btn btn-danger">Delete</button>
+    <button class="btn btn-primary">Clear</button>
   </div>
-</form>
+</div>

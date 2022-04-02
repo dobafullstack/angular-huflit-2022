@@ -7,7 +7,7 @@ import Recipe from '../models/Recipe';
   styleUrls: ['./recipes.component.scss']
 })
 export class RecipesComponent implements OnInit {
-  recipe: Recipe;
+  recipe?: Recipe;
 
   constructor() { }
 

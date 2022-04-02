@@ -2,7 +2,7 @@
   <div class="col-6">
     <app-recipe-list (recipeSelected)="onSelect($event)"></app-recipe-list>
   </div>
-  <div class="col-6">
+  <div class="col-6" *ngIf="recipe">
     <app-recipe-detail [recipe]="recipe"></app-recipe-detail>
   </div>
 </div>
