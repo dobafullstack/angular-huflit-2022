@@ -6,7 +6,10 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import Ingredient from 'src/app/models/Ingredient';
 import Recipe from 'src/app/models/Recipe';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -15,11 +18,22 @@ import Recipe from 'src/app/models/Recipe';
 })
 export class RecipeDetailComponent implements OnInit {
   isOpen: boolean;
+  id: number;
   @Input() recipe: Recipe;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private service: RecipeService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.recipe = this.service.getRecipe(this.id);
+    });
+  }
 
   @HostListener('click') toggleOpen() {
     this.isOpen = !this.isOpen;
@@ -30,5 +44,9 @@ export class RecipeDetailComponent implements OnInit {
     } else {
       this.renderer.removeClass(part, 'show');
     }
+  }
+
+  onAddIngredientsToShoppingList() {
+    this.service.addIngredientsToShoppingList(this.recipe.ingredients);
   }
 }

@@ -1,9 +1,5 @@
 <button class="btn btn-success my-3">New Recipe</button>
 <hr />
 <div class="list-group">
-  <div *ngFor="let item of recipes">
-    <div (click)="onSelect(item)">
-      <app-recipe-item [recipe]="item"></app-recipe-item>
-    </div>
-  </div>
+  <app-recipe-item *ngFor="let item of recipes; let i = index" [recipe]="item" [index]="i"></app-recipe-item>
 </div>
