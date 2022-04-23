@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { NgForm } from '@angular/forms';
 import Ingredient from 'src/app/models/Ingredient';
 import { ShoppingListService } from '../shopping-list.service';
 
@@ -8,22 +15,50 @@ import { ShoppingListService } from '../shopping-list.service';
   styleUrls: ['./shopping-edit.component.scss'],
 })
 export class ShoppingEditComponent implements OnInit {
-  name: string;
-  amount: number;
+  @ViewChild('f') slForm: NgForm;
+  isEdit = false;
+  editedItem: Ingredient;
+  editedItemIndex: number;
 
   constructor(private service: ShoppingListService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.service.statedEditing.subscribe((index) => {
+      this.editedItemIndex = index;
+      this.isEdit = true;
 
-  onAdd() {
-    const { amount, name } = this;
+      const ingredient = this.service.getIngredient(index);
 
-    console.log(this.amount, this.name);
+      this.slForm.setValue({
+        name: ingredient.name,
+        amount: ingredient.amount,
+      });
+    });
+  }
 
-    if (!name || !amount) {
-      alert('Please type something');
-      return;
+  onSubmit(){
+    if (this.isEdit){
+      this.onUpdateItem()
+    }else{
+      this.onAddItem();
     }
+  }
+
+  onUpdateItem(){
+    const { name, amount } = this.slForm.value;
+
+    const newIngredient = new Ingredient({
+      name,
+      amount,
+    });
+
+    this.service.onUpdateItem(this.editedItemIndex, newIngredient);
+
+    this.onReset()
+  }
+
+  onAddItem() {
+    const { name, amount } = this.slForm.value;
 
     const newIngredient = new Ingredient({
       name,
@@ -32,7 +67,16 @@ export class ShoppingEditComponent implements OnInit {
 
     this.service.addIngredient(newIngredient);
 
-    this.name = '';
-    this.amount = 0;
+    this.onReset()
+  }
+
+  onDeleteItem(){
+    this.service.onDeleteItem(this.editedItemIndex);
+    this.onReset();
+  }
+
+  onReset() {
+    this.slForm.resetForm();
+    this.isEdit = false;
   }
 }
