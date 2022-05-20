@@ -1,26 +1,43 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { CustomerComponent } from './pages/customer/customer.component';
+import { EditLaptopComponent } from './pages/laptop/edit-laptop/edit-laptop.component';
+import { LaptopDetailComponent } from './pages/laptop/laptop-detail/laptop-detail.component';
+import { LaptopStartComponent } from './pages/laptop/laptop-start/laptop-start.component';
+import { LaptopComponent } from './pages/laptop/laptop.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   {
-    path: 'recipes',
-    component: RecipesComponent,
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/laptops',
+  },
+  {
+    path: 'laptops',
+    component: LaptopComponent,
     children: [
-      { path: '', component: RecipeStartComponent },
-      { path: ':id', component: RecipeDetailComponent },
-      { path: 'edit/:id', component: RecipeEditComponent },
-      { path: 'new/recipe', component: RecipeEditComponent, pathMatch: "full" },
+      {
+        path: '',
+        component: LaptopStartComponent,
+      },
+      {
+        path: ':id',
+        component: LaptopDetailComponent,
+      },
+      {
+        path: 'edit/:id',
+        component: EditLaptopComponent,
+      },
+      {
+        path: 'new/laptop',
+        component: EditLaptopComponent,
+      },
     ],
   },
   {
-    path: 'shopping-list',
-    component: ShoppingListComponent,
+    path: 'customers',
+    pathMatch: 'full',
+    component: CustomerComponent,
   },
 ];
 
